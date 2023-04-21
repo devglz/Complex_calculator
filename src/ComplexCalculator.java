@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
-public class Kalkulator {
-
+public class ComplexCalculator implements MathConstants {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
@@ -31,11 +30,29 @@ public class Kalkulator {
         Complex iloraz = z1.podziel(z2);
         System.out.println("Dzielenie: " + iloraz);
 
-        input.close();
+        System.out.println("Stałe matematyczne:");
+        System.out.println("Pi: " + MathConstants.PI);
+        System.out.println("Euler: " + MathConstants.E);
+        System.out.println("Stała złotego podziału (phi): " + MathConstants.PHI);
+        System.out.println("Stała Eulera (gamma): " + MathConstants.GAMMA);
     }
 }
 
-class Complex {
+interface MathConstants {
+    double PI = Math.PI;
+    double E = Math.E;
+    double PHI = 1.6180339887498948482045868343656; // Stała złotego podziału (phi)
+    double GAMMA = 0.5772156649015328606065120900824; // Stała Eulera (gamma)
+}
+
+interface ComplexOperations {
+    Complex dodaj(Complex z);
+    Complex odejmij(Complex z);
+    Complex pomnoz(Complex z);
+    Complex podziel(Complex z);
+}
+
+class Complex implements ComplexOperations {
     private double re;
     private double im;
 
@@ -69,11 +86,12 @@ class Complex {
         return new Complex(newRe, newIm);
     }
 
+    @Override
     public String toString() {
-        if (im >= 0) {
-            return re + " + " + im + "i";
-        } else {
+        if (im < 0) {
             return re + " - " + (-im) + "i";
+        } else {
+            return re + " + " + im + "i";
         }
     }
 }
